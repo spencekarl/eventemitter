@@ -17,6 +17,8 @@ EventEmitter.prototype.on = function (name, handler) {
   }
 
   this.listeners++;
+  //changeable(name, false);
+
   return this;
 }
 
@@ -76,5 +78,4 @@ EventEmitter.prototype.emit = function () {
   }
 }
 
-//need to understand .exports better
 module.exports = EventEmitter;
