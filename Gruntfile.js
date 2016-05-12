@@ -9,12 +9,12 @@ module.exports = function( grunt ) {
         },
         src: [ 'test/core.js' ]
       },
-      // bonus: {
-      //   options: {
-      //     reporter: 'spec'
-      //   },
-      //   src: [ 'test/bonus.js' ]
-      // }
+      bonus: {
+        options: {
+          reporter: 'spec'
+        },
+        src: [ 'test/bonus.js' ]
+      }
     }
   });
 

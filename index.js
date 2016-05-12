@@ -3,17 +3,17 @@ function EventEmitter() {
   this.events = {};
 }
 
-EventEmitter.prototype.on = function (event, handler) {
-  if (typeof event !== 'string' || typeof handler !== 'function') throw new TypeError;
+EventEmitter.prototype.on = function (name, handler) {
+  if (typeof name !== 'string' || typeof handler !== 'function') throw new TypeError;
 
-  if (!this.events[event]) {
-    this.events[event] = handler;
+  if (!this.events[name]) {
+    this.events[name] = handler;
   }
-  else if (typeof this.events[event] === 'object') {
-    this.events[event].push(handler);
+  else if (this.listeners == 1) {
+    this.events[name] = [this.events[name], handler];
   }
   else {
-    this.events[event] = [this.events[event], handler];
+    this.events[name].push(handler);
   }
 
   this.listeners++;
@@ -24,13 +24,15 @@ EventEmitter.prototype.off = function () {
   var length = arguments.length;
 
   if (length > 0 && typeof arguments[0] !== 'string') throw new TypeError;
+  if (length > 1 && (typeof arguments[1] === undefined || typeof arguments[1] !== 'function')) throw new TypeError;
 
-  if (length === 0) {
+  if (!length) {
     this.events = {};
     this.listeners = 0;
   }
-  else if (this.events[arguments[0]]) {
-    if (typeof arguments[1] === 'function') {
+
+  if (this.events[arguments[0]]) {
+    if (arguments[1]) {
       length = this.events[arguments[0]].length;
       for (i = length - 1; i >= 0; i--) {
         if (this.events[arguments[0]][i] == arguments[1]) {
@@ -44,9 +46,6 @@ EventEmitter.prototype.off = function () {
       delete this.events[arguments[0]];
     }
   }
-  else {
-
-  }
 
   return this;
 }
@@ -56,8 +55,8 @@ EventEmitter.prototype.emit = function () {
   if (typeof arguments[1] === 'function') return this;
 
   var handler = this.events[arguments[0]];
-  var args = [];
   var length;
+  var args = [];
 
   if (typeof handler === 'function') {
     length = arguments.length;
