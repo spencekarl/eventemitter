@@ -17,8 +17,6 @@ EventEmitter.prototype.on = function (name, handler) {
   }
 
   this.listeners++;
-  //changeable(name, false);
-
   return this;
 }
 
