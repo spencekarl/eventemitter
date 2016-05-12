@@ -29,25 +29,32 @@ EventEmitter.prototype.off = function () {
   var handler = arguments[1];
   var length = arguments.length;
 
+  // error handling requires 1st param to be a string and 2nd to be a function
   if (length > 0 && typeof name !== 'string') throw new TypeError;
   if (length > 1 && (typeof handler === undefined || typeof handler !== 'function')) throw new TypeError;
 
-  if (length == 0) {  // reset if no parameters passed in
+  // if no parameters passed in, reset everything
+  if (length == 0) {
     this.events = {};
     this.listeners = 0;
     return this;
   }
 
+  // if we have a handler bound to the event
   if (this.events[name]) {
+    // if we need to remove a specific handler (passed in as an argument)
     if (handler) {
-      length = this.events[name].length;
-      for (i = length - 1; i >= 0; i--) {
+      length = this.events[name].length; // figure out length of handler queue
+
+      // loop through the handler queue and remove each instance of handler
+      for (i = length - 1; i >= 0; i--) {  // goes backwards to avoid dangling commas
         if (this.events[name][i] == handler) {
           this.listeners--;
           this.events[name].splice(i, 1);
         }
       }
     }
+    // ...or we just remove all handlers from the queue
     else {
       this.listeners -= this.events[name].length;
       delete this.events[name];
