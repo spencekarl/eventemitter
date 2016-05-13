@@ -92,148 +92,148 @@ describe( 'EventEmitter (core)', function() {
     });
 
   });
-  
-  // describe( '#emit', function() {
-  //
-  //   it( 'should be a method', function() {
-  //     var EventEmitter = require('../index');
-  //
-  //     assert.equal( typeof EventEmitter.prototype.emit, 'function', 'EventEmitter#emit is not a function' );
-  //   });
-  //
-  //   it( 'should throw a TypeError when first argument is not a string', function() {
-  //     var EventEmitter = require('../index');
-  //     var emitter = new EventEmitter();
-  //
-  //     assert.throws(function() {
-  //       emitter.emit( 123 );
-  //     }, TypeError );
-  //   });
-  //
-  //   it( 'should throw a TypeError when first argument is undefined', function() {
-  //     var EventEmitter = require('../index');
-  //     var emitter = new EventEmitter();
-  //
-  //     assert.throws(function() {
-  //       emitter.emit( undefined );
-  //     }, TypeError );
-  //   });
-  //
-  //   it( 'should return `this`', function() {
-  //     var EventEmitter = require('../index');
-  //     var emitter = new EventEmitter();
-  //     var result = emitter.emit( 'foo', function() {} );
-  //
-  //     assert.strictEqual( result, emitter, 'EventEmitter#emit did not return `this`' );
-  //   });
-  //
-  //   it( 'should invoke bound listeners', function() {
-  //     var EventEmitter = require('../index');
-  //     var emitter = new EventEmitter();
-  //     var calledA = false;
-  //     var calledB = false;
-  //     var calledC = false;
-  //     var calledD = false;
-  //
-  //     emitter.on( 'foo', function() {
-  //       calledA = true;
-  //     });
-  //
-  //     emitter.on( 'foo', function() {
-  //       calledB = true;
-  //     });
-  //
-  //     emitter.on( 'bar', function() {
-  //       calledC = true;
-  //     });
-  //
-  //     // `baz` never gets emitted, so this should never be called
-  //     emitter.on( 'baz', function() {
-  //       calledD = true;
-  //     });
-  //
-  //     emitter.emit('foo');
-  //     emitter.emit('bar');
-  //
-  //     assert( calledA, 'Called A was not invoked');
-  //     assert( calledB, 'Called B was not invoked');
-  //
-  //     assert( calledC, 'Called C was not invoked' );
-  //     assert( !calledD, 'A non-targeted listener was executed' );
-  //   });
-  //
-  //   it( 'should provide `this` context to bound listeners', function() {
-  //     var EventEmitter = require('../index');
-  //     var emitter = new EventEmitter();
-  //     var ctx;
-  //
-  //     emitter.on( 'foo', function() {
-  //       ctx = this;
-  //     });
-  //
-  //     emitter.emit('foo');
-  //
-  //     assert.strictEqual( ctx, emitter, 'Bound listener was not invoked with correct `this` context' );
-  //   });
-  //
-  //   it( 'should pass additional arguments to bound listeners', function() {
-  //     var EventEmitter = require('../index');
-  //     var emitter = new EventEmitter();
-  //     var args = [];
-  //
-  //     emitter.on( 'foo', function( a, b, c ) {
-  //       args.push( a, b, c );
-  //     });
-  //
-  //     emitter.emit( 'foo', 1, 2, 3 );
-  //
-  //     args = args.join('');
-  //
-  //     assert.strictEqual( args, '123', 'Additional arguments were not passed to the bound listener' );
-  //   });
-  //
-  //   it( 'should invoke all bound listeners, even if one calls off()', function() {
-  //     var EventEmitter = require('../index');
-  //     var emitter = new EventEmitter();
-  //     var called = 0;
-  //
-  //     emitter.on( 'foo', function() {
-  //       called++;
-  //       emitter.off();
-  //     });
-  //
-  //     // this should still get called, since it was bound at the time
-  //     // we called `emit()`
-  //     emitter.on( 'foo', function() {
-  //       called++;
-  //     });
-  //
-  //     emitter.emit('foo');
-  //
-  //     assert.strictEqual( called, 2, 'Queued listener was not invoked' );
-  //   });
-  //
-  //   it( 'should scope events to the instance they were bound to', function() {
-  //     var EventEmitter = require('../index');
-  //     var emitter1 = new EventEmitter();
-  //     var emitter2 = new EventEmitter();
-  //     var called = 0;
-  //
-  //     emitter1.on( 'foo', function() {
-  //       called++;
-  //     });
-  //
-  //     // should not be called
-  //     emitter2.on( 'foo', function() {
-  //       called++;
-  //     });
-  //
-  //     emitter1.emit('foo');
-  //
-  //     assert.strictEqual( called, 1, 'Event emitted on non-targeted instance' );
-  //   });
-  //
-  // });
+
+  describe( '#emit', function() {
+
+    it( 'should be a method', function() {
+      var EventEmitter = require('../index');
+
+      assert.equal( typeof EventEmitter.prototype.emit, 'function', 'EventEmitter#emit is not a function' );
+    });
+
+    it( 'should throw a TypeError when first argument is not a string', function() {
+      var EventEmitter = require('../index');
+      var emitter = new EventEmitter();
+
+      assert.throws(function() {
+        emitter.emit( 123 );
+      }, TypeError );
+    });
+
+    it( 'should throw a TypeError when first argument is undefined', function() {
+      var EventEmitter = require('../index');
+      var emitter = new EventEmitter();
+
+      assert.throws(function() {
+        emitter.emit( undefined );
+      }, TypeError );
+    });
+
+    it( 'should return `this`', function() {
+      var EventEmitter = require('../index');
+      var emitter = new EventEmitter();
+      var result = emitter.emit( 'foo', function() {} );
+
+      assert.strictEqual( result, emitter, 'EventEmitter#emit did not return `this`' );
+    });
+
+    it( 'should invoke bound listeners', function() {
+      var EventEmitter = require('../index');
+      var emitter = new EventEmitter();
+      var calledA = false;
+      var calledB = false;
+      var calledC = false;
+      var calledD = false;
+
+      emitter.on( 'foo', function() {
+        calledA = true;
+      });
+
+      emitter.on( 'foo', function() {
+        calledB = true;
+      });
+
+      emitter.on( 'bar', function() {
+        calledC = true;
+      });
+
+      // `baz` never gets emitted, so this should never be called
+      emitter.on( 'baz', function() {
+        calledD = true;
+      });
+
+      emitter.emit('foo');
+      emitter.emit('bar');
+
+      assert( calledA, 'Called A was not invoked');
+      assert( calledB, 'Called B was not invoked');
+
+      assert( calledC, 'Called C was not invoked' );
+      assert( !calledD, 'A non-targeted listener was executed' );
+    });
+
+    it( 'should provide `this` context to bound listeners', function() {
+      var EventEmitter = require('../index');
+      var emitter = new EventEmitter();
+      var ctx;
+
+      emitter.on( 'foo', function() {
+        ctx = this;
+      });
+
+      emitter.emit('foo');
+
+      assert.strictEqual( ctx, emitter, 'Bound listener was not invoked with correct `this` context' );
+    });
+
+    it( 'should pass additional arguments to bound listeners', function() {
+      var EventEmitter = require('../index');
+      var emitter = new EventEmitter();
+      var args = [];
+
+      emitter.on( 'foo', function( a, b, c ) {
+        args.push( a, b, c );
+      });
+
+      emitter.emit( 'foo', 1, 2, 3 );
+
+      args = args.join('');
+
+      assert.strictEqual( args, '123', 'Additional arguments were not passed to the bound listener' );
+    });
+
+    it( 'should invoke all bound listeners, even if one calls off()', function() {
+      var EventEmitter = require('../index');
+      var emitter = new EventEmitter();
+      var called = 0;
+
+      emitter.on( 'foo', function() {
+        called++;
+        emitter.off();
+      });
+
+      // this should still get called, since it was bound at the time
+      // we called `emit()`
+      emitter.on( 'foo', function() {
+        called++;
+      });
+
+      emitter.emit('foo');
+
+      assert.strictEqual( called, 2, 'Queued listener was not invoked' );
+    });
+
+    it( 'should scope events to the instance they were bound to', function() {
+      var EventEmitter = require('../index');
+      var emitter1 = new EventEmitter();
+      var emitter2 = new EventEmitter();
+      var called = 0;
+
+      emitter1.on( 'foo', function() {
+        called++;
+      });
+
+      // should not be called
+      emitter2.on( 'foo', function() {
+        called++;
+      });
+
+      emitter1.emit('foo');
+
+      assert.strictEqual( called, 1, 'Event emitted on non-targeted instance' );
+    });
+
+  });
   //
   // describe( '#off', function() {
   //
