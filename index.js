@@ -1,11 +1,24 @@
 function EventEmitter() {
   this.listeners = 0;
   this.events = {};
+
+  // Object.preventExtensions(this.listeners);
+  // Object.preventExtensions(this.events);
+  // Object.defineProperties(this, {
+  //   "events": {
+  //     configurable: true,
+  //   },
+  //   "listeners": {
+  //     configurable: true,
+  //   }
+  // });
 }
 
 EventEmitter.prototype.on = function (name, handler) {
   if (typeof name !== 'string' || typeof handler !== 'function') throw new TypeError;
   // if we get past the error handling we are ready to bind the handler functions
+
+  writable(this, true);
 
   // the first instance of the event
   if (!this.events[name]) {
@@ -21,6 +34,8 @@ EventEmitter.prototype.on = function (name, handler) {
   }
 
   this.listeners++;
+
+  writable(this, false);
   return this;
 }
 
@@ -32,6 +47,8 @@ EventEmitter.prototype.off = function () {
   // error handling requires 1st param to be a string and 2nd to be a function
   if (length > 0 && typeof name !== 'string') throw new TypeError;
   if (length > 1 && (typeof handler === undefined || typeof handler !== 'function')) throw new TypeError;
+
+  writable(this, true);
 
   // if no parameters passed in, reset everything
   if (length == 0) {
@@ -61,6 +78,7 @@ EventEmitter.prototype.off = function () {
     }
   }
 
+  writable(this, false);
   return this;
 }
 
@@ -91,6 +109,17 @@ EventEmitter.prototype.emit = function () {
       handler[i].call(this);
     }
   }
+}
+
+function writable(obj, is_writable) {
+  Object.keys(obj).forEach(function(value) {
+
+    Object.defineProperty(obj, value, {
+      // configurable: is_writable,
+      writable: is_writable
+    });
+
+  });
 }
 
 module.exports = EventEmitter;
