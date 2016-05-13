@@ -9,7 +9,7 @@ EventEmitter.prototype.on = function (event, handler) {
   if (!this.events[event]) {
     this.events[event] = handler;
   }
-  else if (this.events[event] === typeof Array) {
+  else if (typeof this.events[event] === 'object') {
     this.events[event].push(handler);
   }
   else {
@@ -21,7 +21,34 @@ EventEmitter.prototype.on = function (event, handler) {
 }
 
 EventEmitter.prototype.off = function () {
+  var length = arguments.length;
 
+  if (length > 0 && typeof arguments[0] !== 'string') throw new TypeError;
+
+  if (length === 0) {
+    this.events = {};
+    this.listeners = 0;
+  }
+  else if (this.events[arguments[0]]) {
+    if (typeof arguments[1] === 'function') {
+      length = this.events[arguments[0]].length;
+      for (i = length - 1; i >= 0; i--) {
+        if (this.events[arguments[0]][i] == arguments[1]) {
+          this.listeners--;
+          this.events[arguments[0]].splice(i, 1);
+        }
+      }
+    }
+    else {
+      this.listeners -= this.events[arguments[0]].length;
+      delete this.events[arguments[0]];
+    }
+  }
+  else {
+
+  }
+
+  return this;
 }
 
 EventEmitter.prototype.emit = function () {
@@ -40,7 +67,7 @@ EventEmitter.prototype.emit = function () {
     }
     handler.apply(this, args);
   }
-  else {
+  else if (typeof handler === 'object'){
     var handlers = handler.slice("");
     length = handlers.length;
 
