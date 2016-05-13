@@ -83,13 +83,12 @@ EventEmitter.prototype.emit = function () {
     handler.apply(this, args);
   }
   // ...or handler could be many functions
-  else if (typeof handler === 'object'){
-    var list = handler.slice(""); // make an array of functions
-    length = list.length;
+  else if (handler instanceof Array){
+    length = handler.length;
 
     // call each function
     for (i = 0; i < length; i++) {
-      list[i].call(this);
+      handler[i].call(this);
     }
   }
 }
