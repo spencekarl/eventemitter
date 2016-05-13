@@ -18,81 +18,81 @@ describe( 'EventEmitter (core)', function() {
 
   });
 
-  // describe( '#on', function() {
-  //
-  //   it( 'should be a method', function() {
-  //     var EventEmitter = require('../index');
-  //
-  //     assert.equal( typeof EventEmitter.prototype.on, 'function', 'EventEmitter#on is not a function' );
-  //   });
-  //
-  //   it( 'should throw a TypeError when first argument is not a string', function() {
-  //     var EventEmitter = require('../index');
-  //     var emitter = new EventEmitter();
-  //
-  //     assert.throws(function() {
-  //       emitter.on( 123 );
-  //     }, TypeError );
-  //   });
-  //
-  //   it( 'should throw a TypeError when first argument is undefined', function() {
-  //     var EventEmitter = require('../index');
-  //     var emitter = new EventEmitter();
-  //
-  //     assert.throws(function() {
-  //       emitter.on( undefined );
-  //     }, TypeError );
-  //   });
-  //
-  //   it( 'should throw a TypeError when second argument is not a function', function() {
-  //     var EventEmitter = require('../index');
-  //     var emitter = new EventEmitter();
-  //
-  //     assert.throws(function() {
-  //       emitter.on( 'foo', [] );
-  //     }, TypeError );
-  //   });
-  //
-  //   it( 'should throw a TypeError when second argument is undefined', function() {
-  //     var EventEmitter = require('../index');
-  //     var emitter = new EventEmitter();
-  //
-  //     assert.throws(function() {
-  //       emitter.on( 'foo', undefined );
-  //     }, TypeError );
-  //   });
-  //
-  //   it( 'should increment `this.listeners`', function() {
-  //     var EventEmitter = require('../index');
-  //     var emitter = new EventEmitter();
-  //
-  //     emitter.on( 'foo', function() {} );
-  //
-  //     assert.strictEqual( emitter.listeners, 1, '`listeners` value not updated after calling `on()` ' );
-  //   });
-  //
-  //   it( 'should return `this`', function() {
-  //     var EventEmitter = require('../index');
-  //     var emitter = new EventEmitter();
-  //     var result = emitter.on( 'foo', function() {} );
-  //
-  //     assert.strictEqual( result, emitter, 'EventEmitter#on did not return `this`' );
-  //   });
-  //
-  //   it( 'should not invoke handlers', function() {
-  //     var EventEmitter = require('../index');
-  //     var emitter = new EventEmitter();
-  //     var called = false;
-  //
-  //     emitter.on( 'foo', function() {
-  //       called = true;
-  //     });
-  //
-  //     assert.strictEqual( called, false, 'EventEmitter#on invoked handler without call to `emit()' );
-  //   });
-  //
-  // });
-  //
+  describe( '#on', function() {
+
+    it( 'should be a method', function() {
+      var EventEmitter = require('../index');
+
+      assert.equal( typeof EventEmitter.prototype.on, 'function', 'EventEmitter#on is not a function' );
+    });
+
+    it( 'should throw a TypeError when first argument is not a string', function() {
+      var EventEmitter = require('../index');
+      var emitter = new EventEmitter();
+
+      assert.throws(function() {
+        emitter.on( 123 );
+      }, TypeError );
+    });
+
+    it( 'should throw a TypeError when first argument is undefined', function() {
+      var EventEmitter = require('../index');
+      var emitter = new EventEmitter();
+
+      assert.throws(function() {
+        emitter.on( undefined );
+      }, TypeError );
+    });
+
+    it( 'should throw a TypeError when second argument is not a function', function() {
+      var EventEmitter = require('../index');
+      var emitter = new EventEmitter();
+
+      assert.throws(function() {
+        emitter.on( 'foo', [] );
+      }, TypeError );
+    });
+
+    it( 'should throw a TypeError when second argument is undefined', function() {
+      var EventEmitter = require('../index');
+      var emitter = new EventEmitter();
+
+      assert.throws(function() {
+        emitter.on( 'foo', undefined );
+      }, TypeError );
+    });
+
+    it( 'should increment `this.listeners`', function() {
+      var EventEmitter = require('../index');
+      var emitter = new EventEmitter();
+
+      emitter.on( 'foo', function() {} );
+
+      assert.strictEqual( emitter.listeners, 1, '`listeners` value not updated after calling `on()` ' );
+    });
+
+    it( 'should return `this`', function() {
+      var EventEmitter = require('../index');
+      var emitter = new EventEmitter();
+      var result = emitter.on( 'foo', function() {} );
+
+      assert.strictEqual( result, emitter, 'EventEmitter#on did not return `this`' );
+    });
+
+    it( 'should not invoke handlers', function() {
+      var EventEmitter = require('../index');
+      var emitter = new EventEmitter();
+      var called = false;
+
+      emitter.on( 'foo', function() {
+        called = true;
+      });
+
+      assert.strictEqual( called, false, 'EventEmitter#on invoked handler without call to `emit()' );
+    });
+
+  });
+  
   // describe( '#emit', function() {
   //
   //   it( 'should be a method', function() {
