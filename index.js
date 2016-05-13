@@ -2,5 +2,12 @@ function EventEmitter() {
   this.listeners = 0;
 }
 
+EventEmitter.prototype.on = function (arg1, arg2) {
+  if (typeof arg1 !== 'string' || typeof arg2 !== 'function') throw new TypeError;
+
+  this.listeners += 1;
+  return this;
+}
+
 //need to understand .exports better
 module.exports = EventEmitter;
