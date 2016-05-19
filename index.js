@@ -4,21 +4,19 @@ function EventEmitter() {
 
   // Object.preventExtensions(this.listeners);
   // Object.preventExtensions(this.events);
-  // Object.defineProperties(this, {
-  //   "events": {
-  //     configurable: true,
-  //   },
-  //   "listeners": {
-  //     configurable: true,
-  //   }
-  // });
+  Object.defineProperties(this, {
+    "events": {
+      configurable: true,
+    },
+    "listeners": {
+      configurable: true,
+    }
+  });
 }
 
 EventEmitter.prototype.on = function (name, handler) {
   if (typeof name !== 'string' || typeof handler !== 'function') throw new TypeError;
   // if we get past the error handling we are ready to bind the handler functions
-
-  writable(this, true);
 
   // the first instance of the event
   if (!this.events[name]) {
@@ -34,8 +32,6 @@ EventEmitter.prototype.on = function (name, handler) {
   }
 
   this.listeners++;
-
-  writable(this, false);
   return this;
 }
 
@@ -47,8 +43,6 @@ EventEmitter.prototype.off = function () {
   // error handling requires 1st param to be a string and 2nd to be a function
   if (length > 0 && typeof name !== 'string') throw new TypeError;
   if (length > 1 && (typeof handler === undefined || typeof handler !== 'function')) throw new TypeError;
-
-  writable(this, true);
 
   // if no parameters passed in, reset everything
   if (length == 0) {
@@ -64,7 +58,7 @@ EventEmitter.prototype.off = function () {
       length = this.events[name].length; // figure out length of handler queue
 
       // loop through the handler queue and remove each instance of handler
-      for (i = length - 1; i >= 0; i--) {  // goes backwards to avoid dangling commas
+      for (var i = length - 1; i >= 0; i--) {  // goes backwards to avoid dangling commas
         if (this.events[name][i] == handler) {
           this.listeners--;
           this.events[name].splice(i, 1);
@@ -78,7 +72,6 @@ EventEmitter.prototype.off = function () {
     }
   }
 
-  writable(this, false);
   return this;
 }
 
@@ -87,38 +80,34 @@ EventEmitter.prototype.emit = function () {
   if (typeof arguments[1] === 'function') return this;
 
   var handler = this.events[arguments[0]]; // get handler(s) bound to event
-  var length;
 
   // handler could be a function
   if (typeof handler === 'function') {
     var args = [];
-    length = arguments.length;
+    var length = arguments.length;
 
     // build a list of arguments to pass to handler
-    for (i = 0; i < length; i++) {
+    for (var i = 0; i < length; i++) {
       args[i] = arguments[i + 1];
     }
+
     handler.apply(this, args);
   }
   // ...or handler could be many functions
   else if (handler instanceof Array){
-    length = handler.length;
+    for (var i in handler) {
+      handler[i].call(this);  // call each function
 
-    // call each function
-    for (i = 0; i < length; i++) {
-      handler[i].call(this);
     }
   }
 }
 
 function writable(obj, is_writable) {
   Object.keys(obj).forEach(function(value) {
-
     Object.defineProperty(obj, value, {
       // configurable: is_writable,
       writable: is_writable
     });
-
   });
 }
 
